@@ -1,4 +1,6 @@
 # Giro orario: cerca i nuovi annunci e li manda su Telegram.
+# Lo avvia ogni ora cron-job.org (puntuale); il "schedule" di GitHub resta come riserva,
+# ma salta il giro se ne e' gia' stato fatto uno negli ultimi 45 minuti.
 # Gira dalle 6 alle 22 ora italiana (l'ultimo giro parte alle 22, di notte si ferma).
 # Lo stato (annunci gia' visti) viene salvato nel repository in stato.json.
 name: Giro orario
@@ -10,6 +12,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  actions: read
 concurrency:
   group: giro
   cancel-in-progress: false
@@ -18,13 +21,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - name: Controlla l'orario (dalle 23 alle 6 non gira)
+      - name: Controlla se il giro serve
         id: ora
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          [ "${{ github.event_name }}" = "schedule" ] || exit 0
           ora=$(TZ=Europe/Rome date +%-H)
-          if [ "${{ github.event_name }}" = "schedule" ] && { [ "$ora" -ge 23 ] || [ "$ora" -lt 6 ]; }; then
-            echo "notte=1" >> "$GITHUB_OUTPUT"
-            echo "Sono le $ora in Italia: giro saltato."
+          if [ "$ora" -ge 23 ] || [ "$ora" -lt 6 ]; then
+            echo "notte=1" >> "$GITHUB_OUTPUT"; echo "Sono le $ora in Italia: giro saltato."; exit 0
+          fi
+          ultimo=$(gh run list -R "$GITHUB_REPOSITORY" --workflow orario.yml --status success --limit 1 --json createdAt -q '.[0].createdAt // ""')
+          if [ -n "$ultimo" ] && [ $(( $(date +%s) - $(date -d "$ultimo" +%s) )) -lt 2700 ]; then
+            echo "notte=1" >> "$GITHUB_OUTPUT"; echo "Giro gia' fatto alle $ultimo: salto."
           fi
       - uses: actions/checkout@v4
         if: steps.ora.outputs.notte != '1'
