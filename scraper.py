@@ -15,7 +15,8 @@ import sys
 import time
 import unicodedata
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 import requests as plain_requests
@@ -33,6 +34,7 @@ MAX_PRIMO_AVVIO = 1      # annunci per sito inviati la prima volta che gira una 
 MAX_FOTO = 3             # foto per annuncio
 GIORNI_MEMORIA = 90      # dopo quanti giorni un annuncio gia' visto viene dimenticato
 ERRORI_PRIMA_DI_AVVISO = 6
+ORA_ITALIANA = ZoneInfo("Europe/Rome")
 ROMA = (41.9028, 12.4964)  # Wallapop vuole una posizione; serve solo per l'ordinamento
 
 
@@ -59,6 +61,8 @@ class Annuncio:
     foto: list
     luogo: str = ""
     nota: str = ""
+    pubblicato: datetime = None   # data di pubblicazione, se il sito la da'
+    pubblicato_circa: str = ""    # Vinted da' solo "2 ore fa": lo teniamo cosi'
 
 
 def log(*parti):
@@ -214,7 +218,8 @@ def cerca_subito(r):
         annunci.append(Annuncio(
             "subito", ad["urn"].split(":")[-1], ad["subject"], prezzo, ad["urls"]["default"],
             [i["cdn_base_url"] + "?rule=fullscreen-1x-auto" for i in ad.get("images", [])
-             if i.get("cdn_base_url")], luogo))
+             if i.get("cdn_base_url")], luogo,
+            pubblicato=_data_iso(ad.get("dates", {}).get("display_iso8601"))))
     return annunci
 
 
@@ -239,7 +244,8 @@ def cerca_wallapop(r):
             "https://it.wallapop.com/item/" + it["web_slug"],
             [i["urls"]["big"] for i in it.get("images", [])],
             ", ".join(v for v in (loc.get("city"), loc.get("country_code")) if v),
-            "" if it.get("shipping", {}).get("item_is_shippable") else "solo ritiro a mano"))
+            "" if it.get("shipping", {}).get("item_is_shippable") else "solo ritiro a mano",
+            pubblicato=datetime.fromtimestamp(it["created_at"] / 1000, timezone.utc) if it.get("created_at") else None))
     return annunci
 
 
@@ -330,16 +336,67 @@ def cerca_ebay(r):
     return annunci
 
 
-def foto_grandi_vinted(a):
-    """La lista risultati ha solo miniature: le foto grandi stanno nella pagina dell'annuncio."""
+def _data_iso(testo):
+    try:
+        return datetime.fromisoformat(re.sub(r"([+-]\d{2})(\d{2})$", r"\1:\2", testo)) if testo else None
+    except ValueError:
+        return None
+
+
+_UNITA = {"sec": 1, "secondi": 1, "secondo": 1, "min": 60, "minuto": 60, "minuti": 60, "ora": 3600, "ore": 3600,
+          "giorno": 86400, "giorni": 86400, "settimana": 604800, "settimane": 604800,
+          "mese": 2592000, "mesi": 2592000, "anno": 31536000, "anni": 31536000}
+
+
+def _data_relativa(testo):
+    """'28 min fa', 'un giorno fa', '3 settimane fa' -> data approssimata."""
+    m = re.match(r"(\d+|un|una|un')\s*([a-z]+)\s+fa", normalizza(testo))
+    if not (m and m.group(2) in _UNITA):
+        return None
+    quanti = 1 if not m.group(1).isdigit() else int(m.group(1))
+    return datetime.now(timezone.utc) - timedelta(seconds=quanti * _UNITA[m.group(2)])
+
+
+def dettagli_vinted(a):
+    """La lista risultati ha solo miniature e nessuna data: foto grandi e data stanno nella pagina."""
     try:
         pagina = _sessione("chrome").get(a.url)
         pagina.raise_for_status()
         grandi = re.findall(r'https://images\d*\.vinted\.net/t[^"\\ ]+?/f800/[^"\\ ]+', pagina.text)
         if grandi:
             a.foto = list(dict.fromkeys(grandi))
+        caricato = re.search(r'upload_date\\",\\"data\\":\{\\"title\\":\\"[^"\\]*\\",\\"value\\":\\"([^"\\]+)', pagina.text)
+        if caricato:
+            a.pubblicato_circa = caricato.group(1)
+            a.pubblicato = _data_relativa(caricato.group(1))
     except Exception as e:
-        log("foto grandi Vinted non disponibili:", a.url, e)
+        log("dettagli Vinted non disponibili:", a.url, e)
+
+
+def data_ebay(a):
+    """eBay mette la data di inserzione solo nella pagina dell'annuncio."""
+    if _EBAY_BLOCCATO[0]:
+        return
+    try:
+        time.sleep(max(0, PAUSA_EBAY - (time.time() - _ULTIMA_EBAY[0])))
+        pagina = _sessione("safari").get(a.url, headers={"Referer": "https://www.ebay.it/"})
+        _ULTIMA_EBAY[0] = time.time()
+        m = re.search(r'"startDate":\{"value":"([^"]+)"', pagina.text)
+        if m:
+            a.pubblicato = datetime.fromisoformat(m.group(1).replace("Z", "+00:00"))
+    except Exception as e:
+        log("data eBay non disponibile:", a.url, e)
+
+
+def testo_data(a):
+    if not a.pubblicato:
+        return a.pubblicato_circa
+    locale = a.pubblicato.astimezone(ORA_ITALIANA)
+    if a.pubblicato_circa:  # Vinted: data stimata dal "x fa"
+        preciso = re.search(r"(sec|min|ora|ore)", normalizza(a.pubblicato_circa))
+        stima = locale.strftime("%d/%m/%Y verso le %H:%M") if preciso else locale.strftime("%d/%m/%Y circa")
+        return f"{a.pubblicato_circa} ({stima})"
+    return locale.strftime("%d/%m/%Y alle %H:%M")
 
 
 CERCATORI = {"vinted": cerca_vinted, "wallapop": cerca_wallapop,
@@ -413,6 +470,7 @@ def didascalia_html(ricerca, a):
     righe = [f"<b>{html.escape(a.titolo[:200])}</b>",
              f"💶 <b>{a.prezzo:.2f} €</b>" + (f" ({html.escape(a.nota)})" if a.nota else ""),
              f"🛒 {a.sito.capitalize()}" + (f" · 📍 {html.escape(a.luogo)}" if a.luogo else ""),
+             f"🗓 Pubblicato: {html.escape(testo_data(a) or 'data non disponibile')}",
              f"🔎 {html.escape(ricerca.nome)}",
              f'<a href="{html.escape(a.url)}">Apri annuncio</a>']
     return "\n".join(righe)
@@ -527,7 +585,9 @@ def esegui():
             for a in reversed(da_inviare):  # dal piu' vecchio al piu' recente
                 try:
                     if a.sito == "vinted":
-                        foto_grandi_vinted(a)
+                        dettagli_vinted(a)
+                    elif a.sito == "ebay":
+                        data_ebay(a)
                     tg.annuncio(r, a)
                     time.sleep(3)
                 except Exception as e:
