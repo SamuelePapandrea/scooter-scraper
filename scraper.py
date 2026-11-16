@@ -121,7 +121,10 @@ def leggi_ricerche(percorso=RICERCHE):
 
 GRAFIE = [(r"stage[\s-]*6", "stage6"), (r"leo[\s-]*vince", "leovince"), (r"ital[\s-]*kit", "italkit"),
           (r"2[\s-]*fast", "2fast"), (r"dell[\s'’]*orto", "dellorto"), (r"t[\s-]*max", "tmax"),
-          (r"(pwk|vhst|vhsh|phbg|phbh)[\s-]*(\d)", r"\1 \2")]  # pwk28 -> pwk 28
+          (r"(pwk|vhst|vhsh|phbg|phbh)[\s-]*(\d)", r"\1 \2"),  # pwk28 -> pwk 28
+          (r"(?<![a-z0-9])([67])[\s-]*(?:travasi|t)(?![a-z0-9])", r"\1t"),  # 6 travasi -> 6t
+          (r"evolution", "evo"), (r"evo(\d)", r"evo \1"),
+          (r"(?<![a-z0-9])(?:due|2)[\s-]*plus", "dueplus"), (r"street[\s-]*race", "streetrace")]
 
 
 def uniforma(testo):
@@ -147,8 +150,10 @@ def contiene(titolo, parola):
         if alternativa.isdigit():
             modello = rf"(?<![0-9.,]){alternativa}(?![0-9]|[.,][0-9])"
         else:
-            radice = alternativa[:-1] if len(alternativa) > 4 and alternativa[-1] in "aeio" else alternativa
-            modello = rf"(?<![a-z0-9]){re.escape(radice)}"
+            modello = rf"(?<![a-z0-9]){re.escape(alternativa)}"
+            if len(alternativa) > 4 and alternativa[-1] in "aeio":
+                # singolare/plurale: cilindro = cilindri, ma non "cilindrata"
+                modello = rf"(?<![a-z0-9]){re.escape(alternativa[:-1])}[aeio]?(?![a-z])"
             if len(alternativa) <= 3:  # sigle corte (zx, tt, pvl, sp): solo come parola intera
                 modello += r"(?![a-z0-9])"
         if re.search(modello, titolo):

@@ -183,3 +183,38 @@ Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c
 - cerca: carter zip sp
 - escludi: copri, coperchio
 - prezzo:
+
+## Cilindro DR
+
+- cerca: cilindro dr; gruppo termico dr
+- prezzo:
+
+## Cilindro Malossi MHR 6 travasi
+
+- cerca: cilindro malossi 6t; cilindro malossi 6 travasi; gruppo termico malossi 6t
+- prezzo:
+
+## Cilindro Malossi 7 travasi
+
+- cerca: cilindro malossi 7t; cilindro malossi 7 travasi; gruppo termico malossi 7t
+- prezzo:
+
+## Cilindro Polini Evolution (1 e 3)
+
+- cerca: cilindro polini evolution; cilindro polini evo; gruppo termico polini evo
+- prezzo:
+
+## Cilindro Top Performances Due Plus
+
+- cerca: cilindro due plus; cilindro 2 plus; gruppo termico due plus
+- prezzo:
+
+## Cilindro Stage6 Streetrace
+
+- cerca: cilindro street race; cilindro streetrace; gruppo termico street race
+- prezzo:
+
+## Cilindro Polini Corsa
+
+- cerca: cilindro polini corsa; gruppo termico polini corsa
+- prezzo:
