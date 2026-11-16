@@ -26,7 +26,7 @@ più restringe i risultati.
 Non è una ricerca: le parole qui sotto vengono escluse da TUTTE le ricerche.
 Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c'entra.
 
-- escludi: tmax, xmax, vespa, ape, ciao, sh, beverly, majesty, burgman, 125, 150, 155, 180, 200, 250, 300, 400, 500, 530, 560, 600, am6, derbi, kawasaki, ninja, auto, mercedes
+- escludi: tmax, xmax, vespa, ape, ciao, sh, beverly, majesty, burgman, 125, 150, 155, 180, 200, 250, 300, 400, 500, 530, 560, 600, am6, derbi, kawasaki, ninja, auto, mercedes, audi, bmw, fiat, ford, opel, volkswagen, golf, roadster, panda, punto
 
 Accessori: se una di queste parole compare nel titolo PRIMA del pezzo cercato, l'annuncio viene
 scartato ("Rulli variatore Malossi", "Molla per variatore", "Collettore carburatore 21").
@@ -68,13 +68,13 @@ Se viene dopo resta ("Variatore Malossi con rulli").
 
 ## Marmitta Leovince ZX
 
-- cerca: leovince zx; marmitta zx
+- cerca: leovince zx
 - spagnolo: escape leovince zx
 - prezzo:
 
 ## Marmitta Leovince TT
 
-- cerca: leovince tt; marmitta tt
+- cerca: leovince tt
 - spagnolo: escape leovince tt
 - prezzo:
 
