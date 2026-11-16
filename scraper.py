@@ -49,6 +49,7 @@ class Ricerca:
     obbligatorie: list = field(default_factory=list)
     titolo_libero: bool = False
     accessori: list = field(default_factory=list)
+    regole_comuni: bool = True
     varianti: list = field(default_factory=list)  # coppie (testo, sito oppure None = tutti)
 
 
@@ -109,6 +110,8 @@ def leggi_ricerche(percorso=RICERCHE):
             corrente.escludi = lista
         elif chiave == "accessori":
             corrente.accessori = lista
+        elif chiave == "regole comuni":
+            corrente.regole_comuni = normalizza(valore).strip() not in ("no", "false", "0")
         elif chiave == "obbligatorie":
             corrente.obbligatorie = lista
         elif chiave == "titolo":
@@ -117,8 +120,9 @@ def leggi_ricerche(percorso=RICERCHE):
     ricerche = [r for r in ricerche if r not in comuni]
     valide = []
     for r in ricerche:
-        r.escludi = r.escludi + [p for c in comuni for p in c.escludi]
-        r.accessori = r.accessori + [p for c in comuni for p in c.accessori]
+        if r.regole_comuni:
+            r.escludi = r.escludi + [p for c in comuni for p in c.escludi]
+            r.accessori = r.accessori + [p for c in comuni for p in c.accessori]
         if not any(sito is None for _, sito in r.varianti):
             r.varianti.insert(0, (r.nome, None))
         r.cerca = r.varianti[0][0]

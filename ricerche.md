@@ -15,6 +15,8 @@ Campi disponibili:
 - `obbligatorie` — facoltativo, altre parole che DEVONO comparire nel titolo;
   `polini/malossi` significa "almeno una delle due"
 - `titolo: libero` — facoltativo, toglie la regola qui sotto
+- `regole comuni: no` — facoltativo, per i pezzi che non sono da scooter: non applica
+  le esclusioni della sezione "Regole per tutte le ricerche"
 
 Regola di pertinenza: un annuncio passa solo se nel titolo ci sono TUTTE le parole
 della variante di `cerca` che lo ha trovato (singolare/plurale è uguale, `50` vale anche `50cc` ma non `150`).
@@ -235,4 +237,10 @@ Se viene dopo resta ("Variatore Malossi con rulli").
 ## Cilindro Polini Corsa
 
 - cerca: cilindro polini corsa; gruppo termico polini corsa
+- prezzo:
+
+## Doppio scarico Alfa Romeo Giulietta
+
+- cerca: doppio scarico giulietta; scarico sdoppiato giulietta; terminale doppio giulietta
+- regole comuni: no
 - prezzo:
