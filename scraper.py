@@ -210,7 +210,9 @@ def cerca_subito(r):
         for f in ad.get("features", []):
             if f.get("uri") == "/price" and f.get("values"):
                 prezzo = _numero(f["values"][0]["key"])
-        if prezzo is None or ad.get("category", {}).get("friendly_name") == "moto-e-scooter":
+        nuovo = any(f.get("uri") == "/item_condition" and f["values"][0].get("key") == "10"
+                    for f in ad.get("features", []) if f.get("values"))
+        if nuovo or prezzo is None or ad.get("category", {}).get("friendly_name") == "moto-e-scooter":
             continue  # senza prezzo, oppure scooter interi invece di ricambi
         geo = ad.get("geo", {})
         luogo = ", ".join(v for v in (geo.get("town", {}).get("value"),
@@ -225,6 +227,7 @@ def cerca_subito(r):
 
 def cerca_wallapop(r):
     parametri = {"keywords": r.cerca, "source": "search_box", "order_by": "newest",
+                 "condition": "as_good_as_new,good,fair,has_given_it_all",  # niente oggetti nuovi
                  "latitude": ROMA[0], "longitude": ROMA[1]}
     if r.pmin:
         parametri["min_sale_price"] = int(r.pmin)
@@ -265,8 +268,8 @@ def cerca_vinted(r):
         m = re.search(r"/items/(\d+)", link.get("href", ""))
         descrizione = link.get("title", "")
         prezzi = re.findall(r"(\d+(?:[.,]\d+)?)\s*€", descrizione)
-        if not (m and prezzi):
-            continue
+        if not (m and prezzi) or re.search(r"Condizioni: Nuovo", descrizione):
+            continue  # solo usato
         titolo = re.split(r", (?:Brand|Condizioni|Taglia):", descrizione)[0]
         img = soup.select_one(f'img[data-testid="product-item-id-{m.group(1)}--image--img"]')
         nota = f"{prezzi[-1]} € con protezione acquisti" if len(prezzi) > 1 else ""
@@ -513,7 +516,7 @@ def trova_chat_id():
 def cerca_su(r, sito):
     """Esegue tutte le varianti della ricerca su un sito e tiene solo gli annunci pertinenti."""
     import dataclasses
-    trovati, buoni = 0, {}
+    trovati, buoni, gemelli = 0, {}, set()
     for testo, solo in r.varianti:
         if solo is not None and sito not in solo:
             continue
@@ -522,6 +525,11 @@ def cerca_su(r, sito):
         trovati += len(risultati)
         for a in risultati:
             if a.id not in buoni and accettabile(variante, a):
+                if sito == "ebay":
+                    gemello = (a.prezzo, re.sub(r"[^a-z]", "", uniforma(a.titolo))[:22])
+                    if gemello in gemelli:
+                        continue
+                    gemelli.add(gemello)
                 buoni[a.id] = a
         time.sleep(1)
     return trovati, list(buoni.values())
