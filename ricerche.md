@@ -103,6 +103,7 @@ Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c
 ## Carburatore Lectron
 
 - cerca: lectron
+- obbligatorie: carburatore/carburador/carb/carbu
 - prezzo:
 
 ## Carburatore Dellorto VHSH

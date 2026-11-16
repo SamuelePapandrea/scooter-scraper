@@ -264,8 +264,9 @@ def cerca_vinted(r):
     return annunci
 
 
-PAUSA_EBAY = 8
+PAUSA_EBAY = 15
 _ULTIMA_EBAY = [0.0]
+_EBAY_BLOCCATO = [False]
 
 
 def cerca_ebay(r):
@@ -274,6 +275,8 @@ def cerca_ebay(r):
         parametri["_udlo"] = int(r.pmin)
     if _pmax(r):
         parametri["_udhi"] = _pmax(r)
+    if _EBAY_BLOCCATO[0]:  # dopo un blocco insistere lo allunga soltanto: riprende al prossimo giro
+        raise RuntimeError("eBay saltato: ha bloccato le richieste in questo giro")
     for tentativo in range(2):
         time.sleep(max(0, PAUSA_EBAY - (time.time() - _ULTIMA_EBAY[0])))
         sessione = _sessione("safari")  # con l'impronta di Chrome eBay risponde 403
@@ -286,6 +289,7 @@ def cerca_ebay(r):
             break
         _SESSIONI.pop("safari", None)  # sessione nuova e pausa lunga prima di riprovare
         time.sleep(45)
+    _EBAY_BLOCCATO[0] = risposta.status_code == 403
     risposta.raise_for_status()
     soup = BeautifulSoup(risposta.text, "html.parser")
     annunci = []
@@ -485,6 +489,10 @@ def esegui():
     errori = stato.setdefault("errori", {})
     adesso = time.time()
     falliti, riusciti = set(), set()
+    # ogni giro parte da una ricerca diversa: se eBay blocca a meta', a turno le copre tutte
+    stato["giro"] = stato.get("giro", 0) + 1
+    inizio = (stato["giro"] * 10) % len(ricerche)
+    ricerche = ricerche[inizio:] + ricerche[:inizio]
 
     for r in ricerche:
         for sito in r.siti:
