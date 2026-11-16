@@ -28,6 +28,12 @@ Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c
 
 - escludi: tmax, xmax, vespa, ape, ciao, sh, beverly, majesty, burgman, 125, 150, 155, 180, 200, 250, 300, 400, 500, 530, 560, 600, am6, derbi, kawasaki, ninja, auto, mercedes
 
+Accessori: se una di queste parole compare nel titolo PRIMA del pezzo cercato, l'annuncio viene
+scartato ("Rulli variatore Malossi", "Molla per variatore", "Collettore carburatore 21").
+Se viene dopo resta ("Variatore Malossi con rulli").
+
+- accessori: rulli, rullo, molla, molle, cinghia, semipuleggia, puleggia, mozzo, guida, cursori, boccola, calotta, coperchio, copri, tappo, guarnizione, guarnizioni, paraolio, cuscinetto, cuscinetti, getti, getto, spillo, galleggiante, vaschetta, collettore, manicotto, funghetto, filtro, cornetto, staffa, attacco, supporto, protezione, paracalore, silenziatore, adesivo, adesivi, estrattore, chiave, attrezzo, blocca, bullone, viti, vite, perno, dado, pistone, fasce, segmenti, spinotto, gabbia, testa, testata, tubo, tubi, ventola, convogliatore, sensore, termostato, pompa, revisione, cavo, candela, pipetta, rodillos, muelle, muelles, correa, junta, juntas, tapa, soporte, chicle, chicles, colector, protector, pegatina, piston
+
 ## Variatore Malossi
 
 - cerca: variatore malossi

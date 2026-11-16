@@ -48,6 +48,7 @@ class Ricerca:
     escludi: list = field(default_factory=list)
     obbligatorie: list = field(default_factory=list)
     titolo_libero: bool = False
+    accessori: list = field(default_factory=list)
     varianti: list = field(default_factory=list)  # coppie (testo, sito oppure None = tutti)
 
 
@@ -106,6 +107,8 @@ def leggi_ricerche(percorso=RICERCHE):
             corrente.siti = tuple(s for s in lista if s in SITI)
         elif chiave == "escludi":
             corrente.escludi = lista
+        elif chiave == "accessori":
+            corrente.accessori = lista
         elif chiave == "obbligatorie":
             corrente.obbligatorie = lista
         elif chiave == "titolo":
@@ -115,6 +118,7 @@ def leggi_ricerche(percorso=RICERCHE):
     valide = []
     for r in ricerche:
         r.escludi = r.escludi + [p for c in comuni for p in c.escludi]
+        r.accessori = r.accessori + [p for c in comuni for p in c.accessori]
         if not any(sito is None for _, sito in r.varianti):
             r.varianti.insert(0, (r.nome, None))
         r.cerca = r.varianti[0][0]
@@ -144,7 +148,11 @@ PAROLE_VUOTE = {"per", "con", "di", "da", "del", "della", "the", "e", "o", "in",
 
 
 def contiene(titolo, parola):
-    """True se `parola` compare nel titolo come parola a se' (non dentro un'altra).
+    return posizione(titolo, parola) >= 0
+
+
+def posizione(titolo, parola):
+    """Posizione di `parola` nel titolo come parola a se' (non dentro un'altra), oppure -1.
 
     Tollera singolare/plurale (variatore/variatori) e per i numeri accetta 50 e 50cc ma non 150 o 500.
     `a/b` significa "una delle due".
@@ -162,9 +170,10 @@ def contiene(titolo, parola):
                 modello = rf"(?<![a-z0-9]){re.escape(alternativa[:-1])}[aeio]?s?(?![a-z])"
             if len(alternativa) <= 3:  # sigle corte (zx, tt, pvl, sp): solo come parola intera
                 modello += r"(?![a-z0-9])"
-        if re.search(modello, titolo):
-            return True
-    return False
+        trovata = re.search(modello, titolo)
+        if trovata:
+            return trovata.start()
+    return -1
 
 
 def accettabile(r, a):
@@ -175,7 +184,14 @@ def accettabile(r, a):
         return False
     richieste = list(r.obbligatorie)
     if not r.titolo_libero:
-        richieste += [p for p in re.findall(r"[a-z0-9/]+", uniforma(r.cerca)) if p not in PAROLE_VUOTE]
+        cercate = [p for p in re.findall(r"[a-z0-9/]+", uniforma(r.cerca)) if p not in PAROLE_VUOTE]
+        richieste += cercate
+        # "Rulli variatore Malossi", "Molla per variatore": se un accessorio viene PRIMA del pezzo
+        # cercato l'annuncio vende l'accessorio. "Variatore con rulli" invece resta.
+        pezzo = next((p for p in cercate if p not in ("kit", "gruppo", "termico")), None)
+        dove = posizione(titolo, pezzo) if pezzo else -1
+        if dove > 0 and any(0 <= posizione(titolo, acc) < dove for acc in r.accessori):
+            return False
     return all(contiene(titolo, p) for p in richieste)
 
 
