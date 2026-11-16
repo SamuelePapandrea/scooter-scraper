@@ -28,7 +28,7 @@ ENV = DIR / ".env"
 STATO = DIR / "stato.json"
 
 SITI = ("vinted", "wallapop", "subito", "ebay")
-MAX_PRIMO_AVVIO = 3      # annunci per sito inviati la prima volta che gira una ricerca
+MAX_PRIMO_AVVIO = 1      # annunci per sito inviati la prima volta che gira una ricerca
 MAX_FOTO = 3             # foto per annuncio
 GIORNI_MEMORIA = 90      # dopo quanti giorni un annuncio gia' visto viene dimenticato
 ERRORI_PRIMA_DI_AVVISO = 6
@@ -337,7 +337,9 @@ CERCATORI = {"vinted": cerca_vinted, "wallapop": cerca_wallapop,
 # ------------------------------------------------------------------ telegram
 
 def leggi_env():
-    valori = {}
+    import os
+    # su GitHub Actions i valori arrivano dai Secrets come variabili d'ambiente
+    valori = {k: v for k, v in os.environ.items() if k.startswith("TELEGRAM_") and v}
     if ENV.exists():
         for riga in ENV.read_text().splitlines():
             if "=" in riga and not riga.strip().startswith("#"):
@@ -522,6 +524,7 @@ def esegui():
             for a in nuovi:
                 visti[f"{a.sito}:{a.id}"] = adesso
             avviate.append(chiave) if prima_volta else None
+            STATO.write_text(json.dumps(stato, indent=1))  # salva subito: un giro interrotto non rimanda doppioni
 
     for sito in SITI:
         if sito in falliti and sito not in riusciti:
