@@ -1,9 +1,12 @@
 # Giro orario: cerca i nuovi annunci e li manda su Telegram.
+# Gira dalle 6 alle 22 ora italiana (l'ultimo giro parte alle 22, di notte si ferma).
 # Lo stato (annunci gia' visti) viene salvato nel repository in stato.json.
 name: Giro orario
 on:
   schedule:
-    - cron: "7 * * * *"
+    # GitHub usa l'ora UTC: 4-21 UTC copre 6-22 italiane sia con l'ora solare sia con quella legale;
+    # le ore in piu' ai bordi vengono saltate dal controllo qui sotto.
+    - cron: "7 4-21 * * *"
   workflow_dispatch:
 permissions:
   contents: write
@@ -15,23 +18,35 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
+      - name: Controlla l'orario (dalle 23 alle 6 non gira)
+        id: ora
+        run: |
+          ora=$(TZ=Europe/Rome date +%-H)
+          if [ "${{ github.event_name }}" = "schedule" ] && { [ "$ora" -ge 23 ] || [ "$ora" -lt 6 ]; }; then
+            echo "notte=1" >> "$GITHUB_OUTPUT"
+            echo "Sono le $ora in Italia: giro saltato."
+          fi
       - uses: actions/checkout@v4
+        if: steps.ora.outputs.notte != '1'
       - uses: actions/setup-python@v5
+        if: steps.ora.outputs.notte != '1'
         with:
           python-version: "3.13"
           cache: pip
       - run: pip install -r requirements.txt
+        if: steps.ora.outputs.notte != '1'
       - name: Cerca e invia
+        if: steps.ora.outputs.notte != '1'
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python scraper.py
       - name: Salva lo stato
-        if: always()
+        if: always() && steps.ora.outputs.notte != '1'
         run: |
+          [ -f stato.json ] || exit 0
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          [ -f stato.json ] || exit 0
           git add stato.json
           git diff --cached --quiet || git commit -m "Aggiorna stato"
           git pull --rebase -q && git push -q

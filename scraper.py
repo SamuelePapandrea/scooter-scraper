@@ -28,6 +28,7 @@ ENV = DIR / ".env"
 STATO = DIR / "stato.json"
 
 SITI = ("vinted", "wallapop", "subito", "ebay")
+SITI_SPAGNOLO = ("vinted", "wallapop")  # siti con molti venditori spagnoli
 MAX_PRIMO_AVVIO = 1      # annunci per sito inviati la prima volta che gira una ricerca
 MAX_FOTO = 3             # foto per annuncio
 GIORNI_MEMORIA = 90      # dopo quanti giorni un annuncio gia' visto viene dimenticato
@@ -88,8 +89,8 @@ def leggi_ricerche(percorso=RICERCHE):
             continue
         chiave, valore = normalizza(m.group(1)).strip(), m.group(2).strip()
         lista = [normalizza(v).strip() for v in valore.split(",") if v.strip()]
-        if chiave == "cerca" or chiave in SITI:
-            solo = chiave if chiave in SITI else None
+        if chiave in ("cerca", "spagnolo") or chiave in SITI:
+            solo = {"cerca": None, "spagnolo": SITI_SPAGNOLO}.get(chiave, (chiave,))
             corrente.varianti += [(v.strip(), solo) for v in valore.split(";") if v.strip()]
         elif chiave == "prezzo":
             numeri = [_numero(n) for n in re.findall(r"\d+(?:[.,]\d+)?", valore)]
@@ -122,7 +123,7 @@ def leggi_ricerche(percorso=RICERCHE):
 GRAFIE = [(r"stage[\s-]*6", "stage6"), (r"leo[\s-]*vince", "leovince"), (r"ital[\s-]*kit", "italkit"),
           (r"2[\s-]*fast", "2fast"), (r"dell[\s'’]*orto", "dellorto"), (r"t[\s-]*max", "tmax"),
           (r"(pwk|vhst|vhsh|phbg|phbh)[\s-]*(\d)", r"\1 \2"),  # pwk28 -> pwk 28
-          (r"(?<![a-z0-9])([67])[\s-]*(?:travasi|t)(?![a-z0-9])", r"\1t"),  # 6 travasi -> 6t
+          (r"(?<![a-z0-9])([67])[\s-]*(?:travasi|transfers?|transferencias|t)(?![a-z0-9])", r"\1t"),  # 6 travasi -> 6t
           (r"evolution", "evo"), (r"evo(\d)", r"evo \1"),
           (r"(?<![a-z0-9])(?:due|2)[\s-]*plus", "dueplus"), (r"street[\s-]*race", "streetrace")]
 
@@ -134,7 +135,8 @@ def uniforma(testo):
     return testo
 
 
-PAROLE_VUOTE = {"per", "con", "di", "da", "del", "della", "the", "e", "o", "in", "a"}
+PAROLE_VUOTE = {"per", "con", "di", "da", "del", "della", "the", "e", "o", "in", "a",
+                "de", "la", "el", "para", "y"}
 
 
 def contiene(titolo, parola):
@@ -153,7 +155,7 @@ def contiene(titolo, parola):
             modello = rf"(?<![a-z0-9]){re.escape(alternativa)}"
             if len(alternativa) > 4 and alternativa[-1] in "aeio":
                 # singolare/plurale: cilindro = cilindri, ma non "cilindrata"
-                modello = rf"(?<![a-z0-9]){re.escape(alternativa[:-1])}[aeio]?(?![a-z])"
+                modello = rf"(?<![a-z0-9]){re.escape(alternativa[:-1])}[aeio]?s?(?![a-z])"
             if len(alternativa) <= 3:  # sigle corte (zx, tt, pvl, sp): solo come parola intera
                 modello += r"(?![a-z0-9])"
         if re.search(modello, titolo):
@@ -450,7 +452,7 @@ def cerca_su(r, sito):
     import dataclasses
     trovati, buoni = 0, {}
     for testo, solo in r.varianti:
-        if solo not in (None, sito):
+        if solo is not None and sito not in solo:
             continue
         variante = dataclasses.replace(r, cerca=testo)
         risultati = CERCATORI[sito](variante)
@@ -504,7 +506,7 @@ def esegui():
     for r in ricerche:
         for sito in r.siti:
             # la "prima volta" e' per ricerca+sito+testo: se cambi le parole non arriva una valanga
-            chiave = normalizza(f"{sito}|" + "|".join(t for t, s_ in r.varianti if s_ in (None, sito)))
+            chiave = normalizza(f"{sito}|" + "|".join(t for t, s_ in r.varianti if s_ is None or sito in s_))
             prima_volta = chiave not in avviate
             try:
                 trovati, buoni = cerca_su(r, sito)

@@ -6,8 +6,9 @@ liberamente: il file viene riletto a ogni giro (una volta all'ora).
 Campi disponibili:
 
 - `cerca` — le parole da cercare sui siti; più varianti separate da `;`
-- `wallapop` (o `vinted`, `subito`, `ebay`) — varianti in più solo per quel sito,
-  utile per Wallapop dove i titoli sono in spagnolo
+- `spagnolo` — varianti in spagnolo, cercate solo su Vinted e Wallapop
+  (molti venditori sono spagnoli); più varianti separate da `;`
+- `wallapop` (o `vinted`, `subito`, `ebay`) — varianti in più solo per quel sito
 - `prezzo` — fascia in euro, es. `20-80`; un solo numero vale come massimo
 - `siti` — facoltativo, es. `vinted, subito`; se manca cerca su tutti e quattro
 - `escludi` — facoltativo, parole che NON devono comparire nel titolo
@@ -30,7 +31,7 @@ Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c
 ## Variatore Malossi
 
 - cerca: variatore malossi
-- wallapop: variador malossi
+- spagnolo: variador malossi
 - prezzo:
 
 ## Marmitta Shot V4
@@ -41,33 +42,34 @@ Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c
 ## Marmitta Polini
 
 - cerca: marmitta polini; espansione polini
-- wallapop: escape polini
-- escludi: protezione, paracalore, guarnizione, molla, staffa
+- spagnolo: escape polini
+- escludi: protezione, paracalore, guarnizione, molla, staffa, protector, junta, muelle, soporte
 - prezzo:
 
 ## Marmitta da restaurare
 
 - cerca: marmitta da restaurare
+- spagnolo: escape para restaurar
 - obbligatorie: scooter/50/70/minarelli/piaggio/aerox/booster/zip/nrg/runner/typhoon/f12/f10/phantom/bws/nitro/stalker/neos/jog/2t
 - prezzo:
 
 ## Marmitta Arrow
 
 - cerca: marmitta arrow; espansione arrow
-- wallapop: escape arrow
+- spagnolo: escape arrow
 - obbligatorie: scooter/50/70/minarelli/piaggio/aerox/booster/zip/nrg/runner/typhoon/f12/f10/phantom/bws/nitro/stalker/neos/jog/2t
 - prezzo:
 
 ## Marmitta Leovince ZX
 
 - cerca: leovince zx; marmitta zx
-- wallapop: escape leovince zx
+- spagnolo: escape leovince zx
 - prezzo:
 
 ## Marmitta Leovince TT
 
 - cerca: leovince tt; marmitta tt
-- wallapop: escape leovince tt
+- spagnolo: escape leovince tt
 - prezzo:
 
 ## Marmitta Roost
@@ -79,15 +81,15 @@ Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c
 ## Carburatore 21
 
 - cerca: carburatore 21
-- wallapop: carburador 21
-- escludi: collettore, funghetto, coperchio, manicotto, guarnizione, getti, cavo, revisione
+- spagnolo: carburador 21
+- escludi: collettore, funghetto, coperchio, manicotto, guarnizione, getti, cavo, revisione, colector, tapa, junta, chicle, admision
 - prezzo:
 
 ## Carburatore 19
 
 - cerca: carburatore 19
-- wallapop: carburador 19
-- escludi: collettore, funghetto, coperchio, manicotto, guarnizione, getti, cavo, revisione
+- spagnolo: carburador 19
+- escludi: collettore, funghetto, coperchio, manicotto, guarnizione, getti, cavo, revisione, colector, tapa, junta, chicle, admision
 - prezzo:
 
 ## Carburatore Dellorto VHST 24 / 26 / 28
@@ -124,32 +126,37 @@ Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c
 ## Correttore di coppia Malossi
 
 - cerca: correttore malossi
+- spagnolo: corrector malossi
 - prezzo:
 
 ## Correttore di coppia Polini
 
 - cerca: correttore polini
+- spagnolo: corrector polini
 - prezzo:
 
 ## Correttore di coppia 2Fast
 
 - cerca: correttore 2fast
+- spagnolo: corrector 2fast
 - prezzo:
 
 ## Correttore di coppia Stage6
 
 - cerca: correttore stage 6
+- spagnolo: corrector stage 6
 - prezzo:
 
 ## Radiatore Aerox
 
 - cerca: radiatore aerox
-- wallapop: radiador aerox
+- spagnolo: radiador aerox
 - prezzo:
 
 ## Accensione Selettra / rotore interno
 
 - cerca: selettra; accensione rotore interno malossi; accensione rotore interno italkit
+- spagnolo: encendido rotor interno malossi; encendido rotor interno italkit
 - obbligatorie: malossi/italkit/accensione/rotore/statore/mhr
 - escludi: pane, selettrice
 - prezzo:
@@ -157,31 +164,33 @@ Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c
 ## Accensione PVL
 
 - cerca: pvl
+- spagnolo: encendido pvl
 - obbligatorie: accensione/rotore/statore/encendido/stage6/polini/minarelli/piaggio
 - prezzo:
 
 ## Accensione Italkit
 
 - cerca: accensione italkit
-- wallapop: encendido italkit
+- spagnolo: encendido italkit
 - prezzo:
 
 ## Carter Piaggio braccio lungo a disco
 
 - cerca: carter piaggio braccio lungo; carter piaggio disco
-- escludi: copri, coperchio, tamburo, aria
+- spagnolo: carter piaggio brazo largo
+- escludi: copri, coperchio, tamburo, aria, tapa, tambor, aire
 - prezzo:
 
 ## Carter Minarelli orizzontale a disco
 
 - cerca: carter minarelli disco
-- escludi: copri, coperchio
+- escludi: copri, coperchio, tapa
 - prezzo:
 
 ## Carter Zip SP
 
 - cerca: carter zip sp
-- escludi: copri, coperchio
+- escludi: copri, coperchio, tapa
 - prezzo:
 
 ## Cilindro DR
@@ -192,11 +201,13 @@ Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c
 ## Cilindro Malossi MHR 6 travasi
 
 - cerca: cilindro malossi 6t; cilindro malossi 6 travasi; gruppo termico malossi 6t
+- spagnolo: kit cilindro malossi 6 transfer
 - prezzo:
 
 ## Cilindro Malossi 7 travasi
 
 - cerca: cilindro malossi 7t; cilindro malossi 7 travasi; gruppo termico malossi 7t
+- spagnolo: kit cilindro malossi 7 transfer
 - prezzo:
 
 ## Cilindro Polini Evolution (1 e 3)
@@ -207,6 +218,7 @@ Servono a togliere scooter grossi, Vespa/Ape/Ciao, moto a marce e roba che non c
 ## Cilindro Top Performances Due Plus
 
 - cerca: cilindro due plus; cilindro 2 plus; gruppo termico due plus
+- spagnolo: kit cilindro top 2 plus
 - prezzo:
 
 ## Cilindro Stage6 Streetrace
