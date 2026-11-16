@@ -277,7 +277,8 @@ _EBAY_BLOCCATO = [False]
 
 
 def cerca_ebay(r):
-    parametri = {"_nkw": r.cerca, "_sop": 10, "_ipg": 60}
+    # LH_ItemCondition=3000: solo oggetti usati (eBay filtra lato server)
+    parametri = {"_nkw": r.cerca, "_sop": 10, "_ipg": 60, "LH_ItemCondition": 3000}
     if r.pmin:
         parametri["_udlo"] = int(r.pmin)
     if _pmax(r):
@@ -309,6 +310,10 @@ def cerca_ebay(r):
         m = re.search(r"EUR\s*([\d.]+,\d{2})", prezzo.get_text(" ", strip=True))
         if not m:
             continue
+        condizione = card.select_one(".s-card__subtitle")
+        condizione = normalizza(condizione.get_text(" ", strip=True)) if condizione else ""
+        if re.search(r"(?<![a-z])(nuov[oa]|new|ricondizionat)", condizione):
+            continue  # doppio controllo: a volte eBay mescola annunci nuovi o sponsorizzati
         testo = titolo.get_text(" ", strip=True)
         testo = re.sub(r"\s*viene aperta una nuova finestra o scheda$", "", testo)
         testo = re.sub(r"^Nuova inserzione\s*", "", testo)
