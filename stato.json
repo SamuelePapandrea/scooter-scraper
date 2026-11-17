@@ -1880,7 +1880,13 @@
   "vinted:10844181539": 1794866169.1443105,
   "wallapop:pj943rg4no6e": 1794866169.1443105,
   "wallapop:wzvgwkrk74zl": 1794866169.1443105,
-  "subito:668658463": 1794866169.1443105
+  "subito:668658463": 1794866169.1443105,
+  "wallapop:nz08n20kpd6o": 1794905382.539993,
+  "subito:668684103": 1794905382.539993,
+  "wallapop:9jdwom2pod6k": 1794905382.539993,
+  "subito:668669142": 1794905382.539993,
+  "wallapop:wzyrmox7yv65": 1794905382.539993,
+  "wallapop:pzpkl52k5mj3": 1794905382.539993
  },
  "avviate": [
   "vinted|vhst 24|vhst 26|vhst 28",
@@ -2058,7 +2064,7 @@
   "vinted": 0,
   "wallapop": 0,
   "subito": 0,
-  "ebay": 0
+  "ebay": 1
  },
- "giro": 5
+ "giro": 6
 }
