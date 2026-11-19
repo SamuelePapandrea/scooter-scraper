@@ -2018,7 +2018,10 @@
   "wallapop:v6gpdnopml6e": 1795064469.655418,
   "vinted:10874212304": 1795064469.655418,
   "vinted:10875953266": 1795064469.655418,
-  "wallapop:nz08nxr9er6o": 1795064469.655418
+  "wallapop:nz08nxr9er6o": 1795064469.655418,
+  "vinted:10877524729": 1795075272.2315266,
+  "subito:668953939": 1795075272.2315266,
+  "subito:668933619": 1795075272.2315266
  },
  "avviate": [
   "vinted|vhst 24|vhst 26|vhst 28",
@@ -2198,8 +2201,8 @@
  "errori": {
   "vinted": 0,
   "wallapop": 0,
-  "subito": 1,
-  "ebay": 13
+  "subito": 0,
+  "ebay": 14
  },
- "giro": 39
+ "giro": 40
 }
