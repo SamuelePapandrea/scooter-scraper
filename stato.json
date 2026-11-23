@@ -2328,7 +2328,8 @@
   "ebay:336911003733": 1795438876.4097195,
   "ebay:327469173783": 1795438876.4097195,
   "vinted:10939008499": 1795438876.4097195,
-  "wallapop:nz08noq3qv6o": 1795438876.4097195
+  "wallapop:nz08noq3qv6o": 1795438876.4097195,
+  "wallapop:v6gpd593y56e": 1795442479.3773482
  },
  "avviate": [
   "vinted|vhst 24|vhst 26|vhst 28",
@@ -2507,7 +2508,11 @@
   "vinted|variatore malossi|variador malossi|0-30",
   "wallapop|variatore malossi|variador malossi|0-30",
   "subito|variatore malossi|0-30",
-  "ebay|variatore malossi|0-30"
+  "ebay|variatore malossi|0-30",
+  "vinted|vhsh 30 carburatore|0-50",
+  "wallapop|vhsh 30 carburatore|0-50",
+  "subito|vhsh 30 carburatore|0-50",
+  "ebay|vhsh 30 carburatore|0-50"
  ],
  "errori": {
   "vinted": 0,
@@ -2515,5 +2520,5 @@
   "subito": 0,
   "ebay": 0
  },
- "giro": 114
+ "giro": 115
 }
