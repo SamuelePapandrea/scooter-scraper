@@ -1,21 +1,27 @@
-# Bot dei comandi: ascolta /aggiungi, /prezzo, /rimuovi, /cerca... per ~4 minuti e poi esce.
-# Lo avvia cron-job.org ogni 5 minuti (come il giro orario); lo "schedule" qui sotto e' solo una riserva.
-# Se arriva una sveglia mentre un turno e' ancora in corso, aspetta in coda e parte appena quello finisce:
-# cosi' il bot e' quasi sempre in ascolto. I messaggi scritti nei buchi Telegram li tiene da parte.
+# Bot dei comandi: ascolta /aggiungi, /prezzo, /rimuovi, /cerca... per 20 minuti, poi rilancia
+# da solo il turno successivo: cosi' e' sempre in ascolto senza bisogno di cron-job.org.
+# Tra un turno e l'altro c'e' un buco di circa un minuto: i messaggi scritti li' Telegram li tiene da parte.
+# Per spegnere il bot: GitHub > Actions > "Bot comandi" > ... > Disable workflow.
+# Lo "schedule" e' solo una riserva, se la catena si interrompe (es. un turno andato in errore).
 name: Bot comandi
 on:
   workflow_dispatch:
+    inputs:
+      minuti:
+        description: "Minuti di ascolto di questo turno"
+        default: "20"
   schedule:
     - cron: "*/30 * * * *"
 permissions:
   contents: write
+  actions: write   # per rilanciare il turno successivo
 concurrency:
   group: bot
   cancel-in-progress: false
 jobs:
   ascolta:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -27,7 +33,14 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MINUTI: ${{ inputs.minuti || '20' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          python bot.py --minuti 4
+          python bot.py --minuti "$MINUTI"
+      # solo se il turno e' andato bene: un errore ripetuto non deve girare in tondo all'infinito
+      - name: Rilancia il turno successivo
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run bot.yml -R "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME"
