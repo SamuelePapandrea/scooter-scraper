@@ -1,0 +1,33 @@
+# Bot dei comandi: ascolta /aggiungi, /prezzo, /rimuovi, /cerca... per ~4 minuti e poi esce.
+# Lo avvia cron-job.org ogni 5 minuti (come il giro orario); lo "schedule" qui sotto e' solo una riserva.
+# Se arriva una sveglia mentre un turno e' ancora in corso, aspetta in coda e parte appena quello finisce:
+# cosi' il bot e' quasi sempre in ascolto. I messaggi scritti nei buchi Telegram li tiene da parte.
+name: Bot comandi
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"
+permissions:
+  contents: write
+concurrency:
+  group: bot
+  cancel-in-progress: false
+jobs:
+  ascolta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Ascolta i comandi
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python bot.py --minuti 4

@@ -5,6 +5,7 @@ Le ricerche stanno in ricerche.md. Uso:
     scraper.py            esegue le ricerche e invia i nuovi annunci
     scraper.py --prova    mostra cosa troverebbe ogni ricerca, senza inviare ne' salvare
     scraper.py --chat-id  trova il chat id (dopo aver scritto /start al bot) e lo salva in .env
+I comandi Telegram (/aggiungi, /prezzo, /cerca...) li gestisce bot.py.
 """
 import argparse
 import html
@@ -27,6 +28,7 @@ DIR = Path(__file__).resolve().parent
 RICERCHE = DIR / "ricerche.md"
 ENV = DIR / ".env"
 STATO = DIR / "stato.json"
+STATO_BOT = DIR / "stato_bot.json"  # annunci inviati dalle ricerche lanciate dal bot
 
 SITI = ("vinted", "wallapop", "subito", "ebay")
 SITI_SPAGNOLO = ("vinted", "wallapop")  # siti con molti venditori spagnoli
@@ -82,9 +84,9 @@ def _numero(s):
     return float(s.replace(",", "."))
 
 
-def leggi_ricerche(percorso=RICERCHE):
+def leggi_ricerche(percorso=None):
     ricerche, corrente = [], None
-    for riga in percorso.read_text(encoding="utf-8").splitlines():
+    for riga in (percorso or RICERCHE).read_text(encoding="utf-8").splitlines():
         riga = riga.strip()
         if riga.startswith("## "):
             corrente = Ricerca(nome=riga[3:].strip())
@@ -102,6 +104,8 @@ def leggi_ricerche(percorso=RICERCHE):
             numeri = [_numero(n) for n in re.findall(r"\d+(?:[.,]\d+)?", valore)]
             if len(numeri) >= 2:
                 corrente.pmin, corrente.pmax = numeri[0], numeri[1]
+            elif numeri and re.search(r"\d\s*-\s*$|^\s*da\b", normalizza(valore)):
+                corrente.pmin = numeri[0]  # "30-" oppure "da 30": solo il minimo
             elif numeri:
                 corrente.pmax = numeri[0]
         elif chiave == "siti":
@@ -555,6 +559,31 @@ def cerca_su(r, sito):
     return trovati, list(buoni.values())
 
 
+def chiave_avvio(r, sito):
+    """La "prima volta" e' per ricerca+sito+testo (+fascia di prezzo, se c'e'): se cambi le parole
+    o allarghi la fascia non arriva una valanga di annunci vecchi."""
+    chiave = f"{sito}|" + "|".join(t for t, s_ in r.varianti if s_ is None or sito in s_)
+    if r.pmin or r.pmax != float("inf"):
+        chiave += f"|{r.pmin:g}-{r.pmax:g}"
+    return normalizza(chiave)
+
+
+def visti_dal_bot():
+    try:
+        return json.loads(STATO_BOT.read_text()).get("visti", {})
+    except (OSError, ValueError):
+        return {}
+
+
+def invia_annuncio(tg, r, a):
+    if a.sito == "vinted":
+        dettagli_vinted(a)
+    elif a.sito == "ebay":
+        data_ebay(a)
+    tg.annuncio(r, a)
+    time.sleep(3)
+
+
 def anteprima(solo=None):
     """Mostra cosa troverebbe ogni ricerca, senza inviare e senza toccare lo stato."""
     import statistics
@@ -587,6 +616,7 @@ def esegui():
     visti = stato.setdefault("visti", {})
     avviate = stato.setdefault("avviate", [])
     errori = stato.setdefault("errori", {})
+    dal_bot = visti_dal_bot()
     adesso = time.time()
     falliti, riusciti = set(), set()
     # ogni giro parte da una ricerca diversa: se eBay blocca a meta', a turno le copre tutte
@@ -596,8 +626,7 @@ def esegui():
 
     for r in ricerche:
         for sito in r.siti:
-            # la "prima volta" e' per ricerca+sito+testo: se cambi le parole non arriva una valanga
-            chiave = normalizza(f"{sito}|" + "|".join(t for t, s_ in r.varianti if s_ is None or sito in s_))
+            chiave = chiave_avvio(r, sito)
             prima_volta = chiave not in avviate
             try:
                 trovati, buoni = cerca_su(r, sito)
@@ -606,18 +635,13 @@ def esegui():
                 falliti.add(sito)
                 continue
             riusciti.add(sito)
-            nuovi = [a for a in buoni if f"{a.sito}:{a.id}" not in visti]
+            nuovi = [a for a in buoni if f"{a.sito}:{a.id}" not in visti and f"{a.sito}:{a.id}" not in dal_bot]
             da_inviare = nuovi[:MAX_PRIMO_AVVIO] if prima_volta else nuovi
             log(f"{r.nome} / {sito}: {trovati} trovati, {len(buoni)} pertinenti, "
                 f"{len(nuovi)} nuovi, {len(da_inviare)} da inviare")
             for a in reversed(da_inviare):  # dal piu' vecchio al piu' recente
                 try:
-                    if a.sito == "vinted":
-                        dettagli_vinted(a)
-                    elif a.sito == "ebay":
-                        data_ebay(a)
-                    tg.annuncio(r, a)
-                    time.sleep(3)
+                    invia_annuncio(tg, r, a)
                 except Exception as e:
                     log(f"ERRORE invio {a.url}: {e}")
                     nuovi.remove(a)  # riprova al prossimo giro

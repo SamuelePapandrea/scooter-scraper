@@ -58,4 +58,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add stato.json
           git diff --cached --quiet || git commit -m "Aggiorna stato"
-          git pull --rebase -q && git push -q
+          # il bot puo' aver pubblicato ricerche.md nel frattempo: si riprova qualche volta
+          for i in 1 2 3 4; do git pull --rebase -q && git push -q && exit 0; sleep 10; done; exit 1

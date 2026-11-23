@@ -3,13 +3,17 @@
 Ogni ricerca è un titolo `##` seguito da un elenco. Modifica, aggiungi o cancella
 liberamente: il file viene riletto a ogni giro (una volta all'ora).
 
+Dal bot Telegram si possono fare le cose più comuni senza toccare questo file:
+/pezzi, /aggiungi, /prezzo, /rimuovi e /cerca (cerca subito un pezzo). Il bot scrive qui.
+
 Campi disponibili:
 
 - `cerca` — le parole da cercare sui siti; più varianti separate da `;`
 - `spagnolo` — varianti in spagnolo, cercate solo su Vinted e Wallapop
   (molti venditori sono spagnoli); più varianti separate da `;`
 - `wallapop` (o `vinted`, `subito`, `ebay`) — varianti in più solo per quel sito
-- `prezzo` — fascia in euro, es. `20-80`; un solo numero vale come massimo
+- `prezzo` — fascia in euro, es. `20-80`; un solo numero vale come massimo (`80` = fino a 80),
+  `30-` vale come minimo (da 30 in su); vuoto = nessun limite
 - `siti` — facoltativo, es. `vinted, subito`; se manca cerca su tutti e quattro
 - `escludi` — facoltativo, parole che NON devono comparire nel titolo
 - `obbligatorie` — facoltativo, altre parole che DEVONO comparire nel titolo;
