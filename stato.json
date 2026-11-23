@@ -2282,7 +2282,8 @@
   "wallapop:p618p3krl5z5": 1795410072.6383562,
   "vinted:10933363179": 1795410072.6383562,
   "wallapop:0j2802nvenjy": 1795410072.6383562,
-  "wallapop:x6qq534pe56y": 1795410072.6383562
+  "wallapop:x6qq534pe56y": 1795410072.6383562,
+  "subito:669415666": 1795420874.0247984
  },
  "avviate": [
   "vinted|vhst 24|vhst 26|vhst 28",
@@ -2463,7 +2464,7 @@
   "vinted": 0,
   "wallapop": 0,
   "subito": 0,
-  "ebay": 20
+  "ebay": 21
  },
- "giro": 108
+ "giro": 109
 }
