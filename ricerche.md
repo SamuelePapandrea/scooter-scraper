@@ -248,3 +248,8 @@ Se viene dopo resta ("Variatore Malossi con rulli").
 - cerca: doppio scarico giulietta; scarico sdoppiato giulietta; terminale doppio giulietta
 - regole comuni: no
 - prezzo:
+
+## VHSH 30 Carburatore
+
+- cerca: VHSH 30 Carburatore
+- prezzo: 
