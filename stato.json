@@ -2283,7 +2283,24 @@
   "vinted:10933363179": 1795410072.6383562,
   "wallapop:0j2802nvenjy": 1795410072.6383562,
   "wallapop:x6qq534pe56y": 1795410072.6383562,
-  "subito:669415666": 1795420874.0247984
+  "subito:669415666": 1795420874.0247984,
+  "subito:669423081": 1795424475.480506,
+  "vinted:9744906359": 1795424475.480506,
+  "vinted:10172885825": 1795424475.480506,
+  "vinted:10133343322": 1795424475.480506,
+  "vinted:9578903951": 1795424475.480506,
+  "vinted:9010447367": 1795424475.480506,
+  "subito:664883297": 1795424475.480506,
+  "subito:663546279": 1795424475.480506,
+  "subito:661639950": 1795424475.480506,
+  "subito:658574698": 1795424475.480506,
+  "subito:655489988": 1795424475.480506,
+  "subito:652567656": 1795424475.480506,
+  "subito:648747468": 1795424475.480506,
+  "subito:645004946": 1795424475.480506,
+  "subito:639419942": 1795424475.480506,
+  "subito:634767141": 1795424475.480506,
+  "subito:631372203": 1795424475.480506
  },
  "avviate": [
   "vinted|vhst 24|vhst 26|vhst 28",
@@ -2458,13 +2475,16 @@
   "subito|leovince tt",
   "ebay|doppio scarico giulietta|scarico sdoppiato giulietta|terminale doppio giulietta",
   "ebay|leovince zx",
-  "ebay|leovince tt"
+  "ebay|leovince tt",
+  "vinted|variatore malossi|variador malossi|0-30",
+  "wallapop|variatore malossi|variador malossi|0-30",
+  "subito|variatore malossi|0-30"
  ],
  "errori": {
   "vinted": 0,
   "wallapop": 0,
   "subito": 0,
-  "ebay": 21
+  "ebay": 22
  },
- "giro": 109
+ "giro": 110
 }
