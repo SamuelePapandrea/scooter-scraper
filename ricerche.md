@@ -44,7 +44,7 @@ Se viene dopo resta ("Variatore Malossi con rulli").
 
 - cerca: variatore malossi
 - spagnolo: variador malossi
-- prezzo:
+- prezzo: 30
 
 ## Marmitta Shot V4
 
