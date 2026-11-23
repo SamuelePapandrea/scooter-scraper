@@ -252,4 +252,4 @@ Se viene dopo resta ("Variatore Malossi con rulli").
 ## VHSH 30 Carburatore
 
 - cerca: VHSH 30 Carburatore
-- prezzo: 
+- prezzo: 50
