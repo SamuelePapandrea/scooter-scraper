@@ -2434,7 +2434,9 @@
   "subito:630861960": 1795510869.2849667,
   "subito:624421172": 1795510869.2849667,
   "subito:620999613": 1795510869.2849667,
-  "subito:349685719": 1795510869.2849667
+  "subito:349685719": 1795510869.2849667,
+  "subito:653636847": 1795518079.3618858,
+  "subito:669568490": 1795518079.3618858
  },
  "avviate": [
   "vinted|vhst 24|vhst 26|vhst 28",
@@ -2721,13 +2723,48 @@
   "subito|carburatore 21|0-20+20",
   "vinted|carburatore 19|carburador 19|0-20+20",
   "wallapop|carburatore 19|carburador 19|0-20+20",
-  "subito|carburatore 19|0-20+20"
+  "subito|carburatore 19|0-20+20",
+  "ebay|cilindro due plus|cilindro 2 plus|gruppo termico due plus|0-40+20",
+  "ebay|cilindro street race|cilindro streetrace|gruppo termico street race|0-40+20",
+  "ebay|cilindro polini corsa|gruppo termico polini corsa|0-40+20",
+  "ebay|doppio scarico giulietta|scarico sdoppiato giulietta|terminale doppio giulietta|0-200+20",
+  "ebay|vhsh 30 carburatore|0-100+20",
+  "ebay|variatore malossi|0-30+20",
+  "ebay|shot v4|0-70+20",
+  "ebay|marmitta polini|espansione polini|0-70+20",
+  "ebay|marmitta da restaurare|0-50+20",
+  "ebay|marmitta arrow|espansione arrow|0-20+20",
+  "ebay|leovince zx|0-20+20",
+  "ebay|leovince tt|0-20+20",
+  "ebay|roost|0-100+20",
+  "ebay|carburatore 21|0-20+20",
+  "ebay|carburatore 19|0-20+20",
+  "ebay|vhst 24|vhst 26|vhst 28|0-50+20",
+  "ebay|pwk 24|pwk 26|pwk 28|pwk 30|0-40+20",
+  "ebay|vhsh|0-40+20",
+  "ebay|campana polini 107|0-30+20",
+  "ebay|campana stage 6|0-30+20",
+  "ebay|correttore malossi|0-60+20",
+  "ebay|correttore polini|0-70+20",
+  "ebay|correttore 2fast|0-250+20",
+  "ebay|correttore stage 6|0-100+20",
+  "ebay|radiatore aerox|0-20+20",
+  "ebay|selettra|accensione rotore interno malossi|accensione rotore interno italkit|0-130+20",
+  "ebay|pvl|0-150+20",
+  "ebay|accensione italkit|0-60+20",
+  "ebay|carter piaggio braccio lungo|carter piaggio disco|0-70+20",
+  "ebay|carter minarelli disco|0-50+20",
+  "ebay|carter zip sp|0-80+20",
+  "ebay|cilindro dr|gruppo termico dr|0-30+20",
+  "ebay|cilindro malossi 6t|cilindro malossi 6 travasi|gruppo termico malossi 6t|0-60+20",
+  "ebay|cilindro malossi 7t|cilindro malossi 7 travasi|gruppo termico malossi 7t|0-80+20",
+  "ebay|cilindro polini evolution|cilindro polini evo|gruppo termico polini evo|0-80+20"
  ],
  "errori": {
   "vinted": 0,
   "wallapop": 0,
   "subito": 0,
-  "ebay": 2
+  "ebay": 0
  },
- "giro": 128
+ "giro": 129
 }
