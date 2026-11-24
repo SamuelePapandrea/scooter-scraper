@@ -49,121 +49,115 @@ Se viene dopo resta ("Variatore Malossi con rulli").
 ## Marmitta Shot V4
 
 - cerca: shot v4
-- prezzo:
+- prezzo: 70
 
 ## Marmitta Polini
 
 - cerca: marmitta polini; espansione polini
 - spagnolo: escape polini
 - escludi: protezione, paracalore, guarnizione, molla, staffa, protector, junta, muelle, soporte
-- prezzo:
+- prezzo: 70
 
 ## Marmitta da restaurare
 
 - cerca: marmitta da restaurare
 - spagnolo: escape para restaurar
 - obbligatorie: scooter/50/70/minarelli/piaggio/aerox/booster/zip/nrg/runner/typhoon/f12/f10/phantom/bws/nitro/stalker/neos/jog/2t
-- prezzo:
+- prezzo: 50
 
 ## Marmitta Arrow
 
 - cerca: marmitta arrow; espansione arrow
 - spagnolo: escape arrow
 - obbligatorie: scooter/50/70/minarelli/piaggio/aerox/booster/zip/nrg/runner/typhoon/f12/f10/phantom/bws/nitro/stalker/neos/jog/2t
-- prezzo:
+- prezzo: 20
 
 ## Marmitta Leovince ZX
 
 - cerca: leovince zx
 - spagnolo: escape leovince zx
-- prezzo:
+- prezzo: 20
 
 ## Marmitta Leovince TT
 
 - cerca: leovince tt
 - spagnolo: escape leovince tt
-- prezzo:
+- prezzo: 20
 
 ## Marmitta Roost
 
 - cerca: roost
 - obbligatorie: marmitta/espansione/scarico/escape/silenziatore
-- prezzo:
+- prezzo: 100
 
 ## Carburatore 21
 
 - cerca: carburatore 21
 - spagnolo: carburador 21
 - escludi: collettore, funghetto, coperchio, manicotto, guarnizione, getti, cavo, revisione, colector, tapa, junta, chicle, admision
-- prezzo:
+- prezzo: 20
 
 ## Carburatore 19
 
 - cerca: carburatore 19
 - spagnolo: carburador 19
 - escludi: collettore, funghetto, coperchio, manicotto, guarnizione, getti, cavo, revisione, colector, tapa, junta, chicle, admision
-- prezzo:
+- prezzo: 20
 
 ## Carburatore Dellorto VHST 24 / 26 / 28
 
 - cerca: vhst 24; vhst 26; vhst 28
-- prezzo:
+- prezzo: 50
 
 ## Carburatore PWK 24 / 26 / 28 / 30
 
 - cerca: pwk 24; pwk 26; pwk 28; pwk 30
-- prezzo:
-
-## Carburatore Lectron
-
-- cerca: lectron
-- obbligatorie: carburatore/carburador/carb/carbu
-- prezzo:
+- prezzo: 40
 
 ## Carburatore Dellorto VHSH
 
 - cerca: vhsh
-- prezzo:
+- prezzo: 40
 
 ## Campana Polini 107
 
 - cerca: campana polini 107
-- prezzo:
+- prezzo: 30
 
 ## Campana Stage6
 
 - cerca: campana stage 6
-- prezzo:
+- prezzo: 30
 
 ## Correttore di coppia Malossi
 
 - cerca: correttore malossi
 - spagnolo: corrector malossi
-- prezzo:
+- prezzo: 60
 
 ## Correttore di coppia Polini
 
 - cerca: correttore polini
 - spagnolo: corrector polini
-- prezzo:
+- prezzo: 70
 
 ## Correttore di coppia 2Fast
 
 - cerca: correttore 2fast
 - spagnolo: corrector 2fast
-- prezzo:
+- prezzo: 250
 
 ## Correttore di coppia Stage6
 
 - cerca: correttore stage 6
 - spagnolo: corrector stage 6
-- prezzo:
+- prezzo: 100
 
 ## Radiatore Aerox
 
 - cerca: radiatore aerox
 - spagnolo: radiador aerox
-- prezzo:
+- prezzo: 20
 
 ## Accensione Selettra / rotore interno
 
@@ -171,85 +165,85 @@ Se viene dopo resta ("Variatore Malossi con rulli").
 - spagnolo: encendido rotor interno malossi; encendido rotor interno italkit
 - obbligatorie: malossi/italkit/accensione/rotore/statore/mhr
 - escludi: pane, selettrice
-- prezzo:
+- prezzo: 130
 
 ## Accensione PVL
 
 - cerca: pvl
 - spagnolo: encendido pvl
 - obbligatorie: accensione/rotore/statore/encendido/stage6/polini/minarelli/piaggio
-- prezzo:
+- prezzo: 150
 
 ## Accensione Italkit
 
 - cerca: accensione italkit
 - spagnolo: encendido italkit
-- prezzo:
+- prezzo: 60
 
 ## Carter Piaggio braccio lungo a disco
 
 - cerca: carter piaggio braccio lungo; carter piaggio disco
 - spagnolo: carter piaggio brazo largo
 - escludi: copri, coperchio, tamburo, aria, tapa, tambor, aire
-- prezzo:
+- prezzo: 70
 
 ## Carter Minarelli orizzontale a disco
 
 - cerca: carter minarelli disco
 - escludi: copri, coperchio, tapa
-- prezzo:
+- prezzo: 50
 
 ## Carter Zip SP
 
 - cerca: carter zip sp
 - escludi: copri, coperchio, tapa
-- prezzo:
+- prezzo: 80
 
 ## Cilindro DR
 
 - cerca: cilindro dr; gruppo termico dr
-- prezzo:
+- prezzo: 30
 
 ## Cilindro Malossi MHR 6 travasi
 
 - cerca: cilindro malossi 6t; cilindro malossi 6 travasi; gruppo termico malossi 6t
 - spagnolo: kit cilindro malossi 6 transfer
-- prezzo:
+- prezzo: 60
 
 ## Cilindro Malossi 7 travasi
 
 - cerca: cilindro malossi 7t; cilindro malossi 7 travasi; gruppo termico malossi 7t
 - spagnolo: kit cilindro malossi 7 transfer
-- prezzo:
+- prezzo: 80
 
 ## Cilindro Polini Evolution (1 e 3)
 
 - cerca: cilindro polini evolution; cilindro polini evo; gruppo termico polini evo
-- prezzo:
+- prezzo: 80
 
 ## Cilindro Top Performances Due Plus
 
 - cerca: cilindro due plus; cilindro 2 plus; gruppo termico due plus
 - spagnolo: kit cilindro top 2 plus
-- prezzo:
+- prezzo: 40
 
 ## Cilindro Stage6 Streetrace
 
 - cerca: cilindro street race; cilindro streetrace; gruppo termico street race
-- prezzo:
+- prezzo: 40
 
 ## Cilindro Polini Corsa
 
 - cerca: cilindro polini corsa; gruppo termico polini corsa
-- prezzo:
+- prezzo: 40
 
 ## Doppio scarico Alfa Romeo Giulietta
 
 - cerca: doppio scarico giulietta; scarico sdoppiato giulietta; terminale doppio giulietta
 - regole comuni: no
-- prezzo:
+- prezzo: 200
 
 ## VHSH 30 Carburatore
 
 - cerca: VHSH 30 Carburatore
-- prezzo: 50
+- prezzo: 100
