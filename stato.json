@@ -2881,13 +2881,14 @@
   "subito|carter piaggio braccio lungo|carter piaggio disco|0-70",
   "vinted|carter minarelli disco|0-50",
   "wallapop|carter minarelli disco|0-50",
-  "subito|carter minarelli disco|0-50"
+  "subito|carter minarelli disco|0-50",
+  "ebay|shot v4|0-70"
  ],
  "errori": {
   "vinted": 0,
   "wallapop": 0,
   "subito": 0,
-  "ebay": 1
+  "ebay": 0
  },
- "giro": 132
+ "giro": 133
 }
