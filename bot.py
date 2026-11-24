@@ -293,9 +293,7 @@ class Bot:
 
     def elenco(self, _=""):
         righe = [f"{i}. {html.escape(r.nome)} — <i>{descrivi(r)}</i>" for i, r in enumerate(pezzi(), 1)]
-        self.invia("<b>Pezzi cercati</b>\n" + "\n".join(righe)
-                   + f"\n\nArrivano anche annunci fino a {s.MARGINE_PREZZO} € sopra il limite, segnalati con ⚠️."
-                   if righe else "Nessun pezzo. Usa /aggiungi.")
+        self.invia("<b>Pezzi cercati</b>\n" + "\n".join(righe) if righe else "Nessun pezzo. Usa /aggiungi.")
 
     def aggiungi(self, argomenti):
         nome = pulisci_nome(argomenti)

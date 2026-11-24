@@ -36,7 +36,6 @@ MAX_PRIMO_AVVIO = 1      # annunci per sito inviati la prima volta che gira una 
 MAX_FOTO = 3             # foto per annuncio
 GIORNI_MEMORIA = 90      # dopo quanti giorni un annuncio gia' visto viene dimenticato
 ERRORI_PRIMA_DI_AVVISO = 6
-MARGINE_PREZZO = 20      # euro in piu' del limite massimo che lo scraper accetta comunque
 ORA_ITALIANA = ZoneInfo("Europe/Rome")
 ROMA = (41.9028, 12.4964)  # Wallapop vuole una posizione; serve solo per l'ordinamento
 
@@ -186,7 +185,7 @@ def posizione(titolo, parola):
 
 
 def accettabile(r, a):
-    if not (r.pmin <= a.prezzo <= r.pmax + MARGINE_PREZZO):
+    if not (r.pmin <= a.prezzo <= r.pmax):
         return False
     titolo = uniforma(a.titolo)
     if any(contiene(titolo, p) for p in r.escludi):
@@ -216,8 +215,7 @@ def _sessione(browser):
 
 
 def _pmax(r):
-    """Massimo chiesto ai siti: il tuo limite piu' il margine."""
-    return None if r.pmax == float("inf") else int(r.pmax + MARGINE_PREZZO)
+    return None if r.pmax == float("inf") else int(r.pmax)
 
 
 def cerca_subito(r):
@@ -497,9 +495,7 @@ class Telegram:
 
 def didascalia_html(ricerca, a):
     righe = [f"<b>{html.escape(a.titolo[:200])}</b>",
-             f"💶 <b>{a.prezzo:.2f} €</b>" + (f" ({html.escape(a.nota)})" if a.nota else "")
-             + (f"\n⚠️ {a.prezzo - ricerca.pmax:.0f} € sopra il tuo limite di {ricerca.pmax:g} €"
-                if a.prezzo > ricerca.pmax else ""),
+             f"💶 <b>{a.prezzo:.2f} €</b>" + (f" ({html.escape(a.nota)})" if a.nota else ""),
              f"🛒 {a.sito.capitalize()}" + (f" · 📍 {html.escape(a.luogo)}" if a.luogo else ""),
              f"🗓 Pubblicato: {html.escape(testo_data(a) or 'data non disponibile')}",
              f"🔎 {html.escape(ricerca.nome)}",
@@ -569,8 +565,6 @@ def chiave_avvio(r, sito):
     chiave = f"{sito}|" + "|".join(t for t, s_ in r.varianti if s_ is None or sito in s_)
     if r.pmin or r.pmax != float("inf"):
         chiave += f"|{r.pmin:g}-{r.pmax:g}"
-        if r.pmax != float("inf"):
-            chiave += f"+{MARGINE_PREZZO}"  # cambiare il margine conta come cambiare la fascia
     return normalizza(chiave)
 
 
