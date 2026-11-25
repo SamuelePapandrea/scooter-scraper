@@ -2464,7 +2464,13 @@
   "ebay:136741142320": 1795590074.7679718,
   "ebay:256580786464": 1795590074.7679718,
   "ebay:336870904545": 1795590074.7679718,
-  "ebay:404172291768": 1795590074.7679718
+  "ebay:404172291768": 1795590074.7679718,
+  "ebay:157260081652": 1795593673.230471,
+  "ebay:227572873479": 1795593673.230471,
+  "ebay:287635294611": 1795593673.230471,
+  "ebay:267806529575": 1795593673.230471,
+  "ebay:128183768000": 1795593673.230471,
+  "ebay:255184442718": 1795593673.230471
  },
  "avviate": [
   "vinted|vhst 24|vhst 26|vhst 28",
@@ -2905,7 +2911,24 @@
   "ebay|cilindro malossi 6t|cilindro malossi 6 travasi|gruppo termico malossi 6t|0-60",
   "ebay|cilindro malossi 7t|cilindro malossi 7 travasi|gruppo termico malossi 7t|0-80",
   "ebay|cilindro polini evolution|cilindro polini evo|gruppo termico polini evo|0-80",
-  "ebay|cilindro due plus|cilindro 2 plus|gruppo termico due plus|0-40"
+  "ebay|cilindro due plus|cilindro 2 plus|gruppo termico due plus|0-40",
+  "ebay|cilindro street race|cilindro streetrace|gruppo termico street race|0-40",
+  "ebay|cilindro polini corsa|gruppo termico polini corsa|0-40",
+  "ebay|doppio scarico giulietta|scarico sdoppiato giulietta|terminale doppio giulietta|0-200",
+  "ebay|vhsh 30 carburatore|0-100",
+  "ebay|marmitta polini|espansione polini|0-70",
+  "ebay|marmitta da restaurare|0-50",
+  "ebay|marmitta arrow|espansione arrow|0-20",
+  "ebay|leovince zx|0-20",
+  "ebay|leovince tt|0-20",
+  "ebay|roost|0-100",
+  "ebay|carburatore 21|0-20",
+  "ebay|carburatore 19|0-20",
+  "ebay|vhst 24|vhst 26|vhst 28|0-50",
+  "ebay|pwk 24|pwk 26|pwk 28|pwk 30|0-40",
+  "ebay|vhsh|0-40",
+  "ebay|campana polini 107|0-30",
+  "ebay|campana stage 6|0-30"
  ],
  "errori": {
   "vinted": 0,
@@ -2913,5 +2936,5 @@
   "subito": 0,
   "ebay": 0
  },
- "giro": 142
+ "giro": 143
 }
