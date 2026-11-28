@@ -2497,7 +2497,8 @@
   "subito:669895703": 1795726873.2584743,
   "subito:669937678": 1795777279.6442156,
   "subito:669944285": 1795780872.1910074,
-  "wallapop:mzn3rymkd2jn": 1795842073.1885006
+  "wallapop:mzn3rymkd2jn": 1795842073.1885006,
+  "subito:670026696": 1795852870.644419
  },
  "avviate": [
   "vinted|vhst 24|vhst 26|vhst 28",
@@ -2961,7 +2962,7 @@
   "vinted": 0,
   "wallapop": 0,
   "subito": 0,
-  "ebay": 9
+  "ebay": 10
  },
- "giro": 193
+ "giro": 194
 }
